@@ -4,7 +4,6 @@ const sbar = document.querySelector('#search-bar-input')
 fetch('https://api.node2.xsense.id/rafi/pochu/v1/leaderboard').then(resp => {
     return resp.json();
 }).then(data => {
-    console.log(data)
     document.querySelector('.c-item-loading').classList.toggle('d-none')
     data.values.forEach((dat, i) => {
         i = i+1
@@ -59,10 +58,10 @@ fetch('https://api.node2.xsense.id/rafi/pochu/v1/leaderboard').then(resp => {
 });
 
 sbar.addEventListener('keyup', (e) => {
-    let search = e.target.value.toLowerCase();
+    let search = e.target.value.toLowerCase().trim();
     let list = document.querySelectorAll('.c-list__item');
     Array.from(list).slice(2).forEach((item) => {
-        let name = item.querySelector('.c-media__title').textContent.toLowerCase();
+        let name = item.querySelector('.c-media__title').textContent.toLowerCase().trim();
         if (name.indexOf(search) !== -1) {
             item.style.display = 'block';
         } else {
