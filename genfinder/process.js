@@ -46,7 +46,6 @@ sbar.addEventListener('keyup', (e) => {
     let isqGenerasi = false;
     let isqAll = false;
     let generasiregex = /\bg\d{1,2}\b/;
-    console.log(generasiregex.test(search), isqNumber, search.length)
     if (search.length > 0) {
         if (!isNaN(search)) {
             isqNumber = true;
