@@ -36,14 +36,46 @@ sbar.addEventListener('keyup', (e) => {
     let list = document.querySelectorAll('.c-list__item');
     document.querySelector('.c-item-no-result').classList.toggle('d-none', false);
     let foundfirst = false;
+    let matchName = false;
+    let matchNIM = false;
+    let matchJurusan = false;
+    let matchFakultas = false;
+    let matchGenerasi = false;
+    let isqNumber = false;
+    let isqString = false;
+    let isqGenerasi = false;
+    let isqAll = false;
+    let generasiregex = /\bg\d{1,2}\b/;
+    console.log(generasiregex.test(search), isqNumber, search.length)
+    if (search.length > 0) {
+        if (!isNaN(search)) {
+            isqNumber = true;
+        } else if (generasiregex.test(search)) {
+            isqGenerasi = true;
+        } else if (search === 'all') {
+            isqAll = true;
+        } else {
+            isqString = true;
+        }
+    }
     Array.from(list).slice(2).forEach((item) => {
-        let name = item.querySelector('.c-media__title').textContent.toLowerCase().trim();
-        let NIM = item.querySelector('.c-media__NIM').textContent.toLowerCase().trim();
-        let jurusan = item.querySelector('.c-jurusan').textContent.toLowerCase().trim();
-        let fakultas = item.querySelector('.c-fakultas').textContent.toLowerCase().trim();
-        let generasi = item.querySelector('.c-generasi').textContent.toLowerCase().trim();
-        let all = 'all'
-        if (search.length > 0 && (name.indexOf(search) !== -1 || NIM.indexOf(search) !== -1 || jurusan.indexOf(search) !== -1 || fakultas.indexOf(search) !== -1 || generasi.indexOf(search) !== -1 || all === search)) {
+        if (!isqAll && (isqNumber || isqString || isqGenerasi)) {
+            if (isqNumber) {
+                let NIM = item.querySelector('.c-media__NIM').textContent.toLowerCase().trim();
+                matchNIM = NIM.includes(search);
+            } else if (isqGenerasi) {
+                let generasi = item.querySelector('.c-generasi').textContent.toLowerCase().trim();
+                matchGenerasi = generasi.includes(search);
+            } else {
+                let nama = item.querySelector('.c-media__title').textContent.toLowerCase().trim();
+                let jurusan = item.querySelector('.c-jurusan').textContent.toLowerCase().trim();
+                let fakultas = item.querySelector('.c-fakultas').textContent.toLowerCase().trim();
+                matchName = nama.includes(search);
+                matchJurusan = jurusan.includes(search);
+                matchFakultas = fakultas.includes(search);
+            }
+        }
+        if (isqAll || matchName || matchNIM || matchJurusan || matchFakultas || matchGenerasi) {
             if (!foundfirst) {
                 foundfirst = true;
                 document.querySelector('.c-item-no-result').classList.toggle('d-none', true);
@@ -52,5 +84,5 @@ sbar.addEventListener('keyup', (e) => {
         } else {
             item.classList.toggle('d-none', true);
         }
-    })
+        })
 })
