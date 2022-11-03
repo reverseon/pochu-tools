@@ -202,6 +202,9 @@ button:hover,
   filter: brightness(90%);
 }
 
+a, a:hover {
+  color: #c8519e;
+}
 /* Figma */
 .button.button-figma {
   color: #ffffff;
@@ -235,7 +238,7 @@ button:hover,
 /* Gitlab */
 .button.button-gitlab {
   color: #ffffff;
-  background-color: #6151b2;
+  background-color: #c8519e;
 }
 .button.button-gitlab:hover,
 .button.button-gitlab:focus {
