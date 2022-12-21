@@ -1,7 +1,10 @@
 const list = document.querySelector('#list')
 const sbar = document.querySelector('#search-bar-input')
+const msg_cnt = document.querySelector('#msg-cnt')
+let errflag = false;
 // async fetch
-fetch('https://chloe.xsense.id/api/pochu/v1/personal').then(resp => {
+fetch('https://chloe.maid.naj.one/pochu/genfinder').then(resp => {
+    if (!resp.ok) throw new Error(resp.status);
     return resp.json();
 }).then(data => {
     data.values.forEach((dat, i) => {
@@ -29,12 +32,25 @@ fetch('https://chloe.xsense.id/api/pochu/v1/personal').then(resp => {
             `;
         list.appendChild(newRow);
     })
-});
+}).catch(err => {
+    errflag = true;
+    if (err.message === '429') {
+        msg_cnt.innerHTML = `Terlalu banyak request, silakan refresh dalam satu menit.`;
+    } else {
+        msg_cnt.innerHTML = `Terjadi kesalahan, silakan refresh halaman dalam beberapa saat.`;
+    }
+})
 
 sbar.addEventListener('keyup', (e) => {
     setTimeout(() => {
+        if (errflag) return;
         let search = e.target.value.toLowerCase().trim();
         let list = document.querySelectorAll('.c-list__item');
+        if (search.length > 0) {
+            msg_cnt.innerHTML = `Tidak ada hasil...`;
+        } else {
+            msg_cnt.innerHTML = `Silakan masukkan kata pencarian...`
+        }
         document.querySelector('.c-item-no-result').classList.toggle('d-none', false);
         let foundfirst = false;
         let matchName = false;
