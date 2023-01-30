@@ -3,7 +3,7 @@ const sbar = document.querySelector('#search-bar-input')
 const msg_cnt = document.querySelector('#msg-cnt')
 let errflag = false;
 // async fetch
-fetch('https://chloe.maid.naj.one/pochu/genfinder').then(resp => {
+fetch('https://chloe.naj.one/pochu/genfinder').then(resp => {
     if (!resp.ok) throw new Error(resp.status);
     return resp.json();
 }).then(data => {
