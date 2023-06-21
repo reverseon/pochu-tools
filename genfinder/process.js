@@ -3,14 +3,22 @@ const sbar = document.querySelector('#search-bar-input')
 const msg_cnt = document.querySelector('#msg-cnt')
 let errflag = false;
 // async fetch
-fetch('https://chloe.naj.one/pochu/genfinder').then(resp => {
-    if (!resp.ok) throw new Error(resp.status);
+fetch('https://sheets.googleapis.com/v4/spreadsheets/1-urWku1IJIMKRttQ7qzy57uff58mkQHw8eY0WQddeL8/values/API_Calls!A:F?key=AIzaSyCfGXx9M-fbTC35DPa_Ud95qgegQO1mGP0').then(resp => {
+    if (!resp.ok) throw new Error(resp.status.toString());
     return resp.json();
 }).then(data => {
-    data.values.forEach((dat, i) => {
-        i = i+1
+    data.values.forEach((data_raw, i) => {
+        if (i === 0) return;
+        let dat = {}
+        dat.nama_lengkap = data_raw[1];
+        dat.NIM = data_raw[3];
+        dat.jurusan = data_raw[4];
+        dat.fakultas = data_raw[5];
+        dat.angkatan_genshi = data_raw[2];
         let newRow = document.createElement('li');
-        newRow.classList = 'c-list__item d-none';
+        // newRow.classList = 'c-list__item d-none';
+        newRow.classList.add('c-list__item');
+        newRow.classList.add('d-none')
         newRow.innerHTML = `
                 <div class="c-list__grid">
                     <div class="c-media">
